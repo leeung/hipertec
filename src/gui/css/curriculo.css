@@ -1,0 +1,16 @@
+sty.hipertec {
+	font-family: "Cambria", Calibri, serif;
+	font-size: 12px;
+}
+
+.titulo{
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.subtitulo{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}

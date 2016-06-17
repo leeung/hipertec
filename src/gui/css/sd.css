@@ -1,0 +1,46 @@
+body {
+    padding-top: 50px;
+}
+
+.principal {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.box-login{
+    padding-left: 10%;
+    padding-right: 70%;
+}
+
+.rodape{
+    margin: auto;
+    width: 100%;
+    bottom: 0;
+    text-align: right;
+    position: fixed
+}
+
+input{
+    margin-bottom: 10px;
+}
+
+.btGerarCurriculo{
+    left: 2%;
+    width: 100%;
+    bottom: 5%;
+    text-align: left;
+    position: fixed;  
+}
+
+.dance {
+    opacity: 1 !important;
+    visibility: visible !important;
+    -webkit-animation: dance 1 2s linear;
+    -moz-animation: dance 1 2s linear;
+    -ms-animation: dance 1 2s linear;
+    -o-animation: dance 1 2s linear;
+    animation: dance 1 2s linear;
+}
+.espacamento{
+
+}
