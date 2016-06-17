@@ -13,7 +13,7 @@ class ExperienciasBo {
 			} else {
 				
 				try {
-					
+					validaCampos("id".$nExp );
 					validaCampos ( "empresa" . $nExp );
 					validaCampos ( "cargo" . $nExp );
 					validaCampos ( "periodoIni" . $nExp );
@@ -22,6 +22,7 @@ class ExperienciasBo {
 				//	validaCampos ( "telReferencia" . $nExp );
 						
 					$experiencia = new ExperienciasDto();
+					$experiencia->setId($_REQUEST['id'.$nExp]);
 					$experiencia->setEmpresa($_REQUEST["empresa" . $nExp]);
 					$experiencia->setFuncao($_REQUEST["cargo" . $nExp]);
 					$experiencia->setInicio($_REQUEST["periodoIni" . $nExp]);

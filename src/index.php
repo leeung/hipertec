@@ -13,12 +13,11 @@ if(isset($_REQUEST['entidade']) && isset($_REQUEST['funcao'])){
 	$entidade = $_REQUEST['entidade'].'Bo'; 
 	$funcao = $_REQUEST['funcao'];
 	
-	//echo $entidade. "//".$funcao;
-	
+	if(!file_exists("bo/".$entidade.".php")) die("nao existe essa entidade");
 	eval('$obj = new $entidade();');
+	
+	if (!method_exists($obj, $funcao)) die("nao existe essa funcao");
 	eval('$obj->$funcao();');
-	
-	
 	
 	
 }else{

@@ -36,25 +36,26 @@ class ExperienciasDao {
 	}
 	
 	public function alterar($experiencias, $cpf) {
-		foreach ( $infoAdicionais as $row ) {
+		
+		foreach ( $experiencias as $row ) {
 	
-			$QUERY_ALTERAR_INFOADD = "update experiencias set empresa=? where curriculum_id = (select id from curriculum where aluno_id=(select id from aluno where cpf=?))";
-	
+			$QUERY_ALTERAR_EXP = "update experiencias set empresa=? where id=? and curriculum_id = (select id from curriculum where aluno_id=(select id from aluno where cpf=?))";
+
 			try {
 	
-				$stm = $this->con->prepare($QUERY_ALTERAR_INFOADD);
+				$stm = $this->con->prepare($QUERY_ALTERAR_EXP);
 				$stm->bindParam(1, $row->getEmpresa());
-				$stm->bindParam ( 2, $cpf );
+				$stm->bindParam(2, $row->getId());
+				$stm->bindParam ( 3, $cpf );
 	
 				$stm->execute ();
 	
-				if ($stm->rowCount () <= 0)
-					return false;
-	
+
 			} catch ( PDOException $e ) {
 				die ( $e->getMessage () );
 			}
-	
+			
 		}
+		
 	}
 }

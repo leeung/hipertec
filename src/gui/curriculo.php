@@ -139,8 +139,10 @@
             <?php foreach ($curriculo->getExperiencias() as $exp):?>
             	<?php $nExp +=1;?>
                 <div class="espacamento row">
+                	<input type="hidden" name="id<?=$nExp?>" value="<?=$exp->getId()?>">
+                	
                     <div class="col-md-12 ">
-                        <input class="form-control" type="text" name="empresa<?=$nExp?>" value="<?=$exp->getEmpresa() ?>" placeholder="Empresa">
+                        <input class="form-control" type="text"  name="empresa<?=$nExp?>" value="<?=$exp->getEmpresa() ?>" placeholder="Empresa">
                     </div>
                     <div class="col-md-4 col-md-offset-0">
                         <input class="form-control" type="text" name="cargo<?=$nExp?>" value="<?=$exp->getFuncao() ?>" placeholder="Última Função">
