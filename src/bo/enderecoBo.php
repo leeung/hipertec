@@ -28,5 +28,18 @@ class EnderecoBo{
 	}
 	
 	
+	public function novo($idAluno){
+		
+		$endereco = new EnderecoDto();
+		$endereco->setAluno($idAluno);
+		self::montarEndereco($endereco);
+		
+		$enderecoDao = new enderecoDao();
+		$enderecoDao->novo($endereco);
+		
+		
+		
+	}
+	
 }
 

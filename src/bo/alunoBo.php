@@ -10,7 +10,15 @@ class alunoBo {
 		$this->alunoDao = new AlunoDao();
 	}
 	public function novo() {
-		if (isset($_REQUEST['novo'])) $nome = $_REQUEST['nome'];		
+		$alunoDto = new alunoDto();
+		self::montarAluno($alunoDto);
+		
+		$alunoDao = new AlunoDao();
+		
+		$id =  $alunoDao->inserir($alunoDto);
+		
+		return $id;
+		
 	}
 	
 	public function listar() {
@@ -41,6 +49,8 @@ class alunoBo {
 		
 		return $aluno;
 	}
+	
+	
 	
 	public static function montarAluno(alunoDto $aluno){
 		

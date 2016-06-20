@@ -18,6 +18,8 @@ class CurriculoDao {
 			echo $e->getMessage ();
 		}
 	}
+	
+	
 	public function existeCurriculo($cpf) {
 		$QUERY_EXISTE_CURRICULO = "SELECT ID FROM curriculum WHERE ALUNO_ID=(SELECT ID FROM ALUNO WHERE CPF=?)";
 		
@@ -27,14 +29,18 @@ class CurriculoDao {
 			
 			if (! $stm->execute ())
 				throw new Exception ( "Um erro fatal foi gerado" );
+			
 			if ($stm->rowCount () > 0)
 				return true;
 			
 			return false;
+			
 		} catch ( Exception $e ) {
 			echo $e->getMessage ();
 		}
 	}
+	
+	
 	public function listCurriculoByCpf($cpf) {
 		$curriculo = new CurriculoDto ();
 		

@@ -37,7 +37,7 @@ class CurriculoBo {
 			$cpf = $_POST ['cpf'];
 			
 			if (! $this->curriculoDao->existeCurriculo ( $cpf )) {
-				
+				die("nao existe");
 				$curriculo = new CurriculoDto ();
 				$curriculo->getAluno()->setCpf ( $cpf );
 				
@@ -113,17 +113,33 @@ class CurriculoBo {
 	}
 	
 	public function novo(){
-		$QUERY_CADASTRAR_CURRICULO = "";
 		
+	
+		
+		$alunoBo = new alunoBo();
+		$id_aluno = $alunoBo->novo();
+		
+		$endereco = new EnderecoBo();
+		$endereco->novo($id_aluno);
+		
+		$curriculo = new CurriculoDto();
+		self::montarCurriculo($curriculo);
+		$curriculoDao = new CurriculoDao();
+		$curriculoDao->novoCurriculo($curriculo);
+		
+		if($alunoBo->listAlunoByCpf($al))
+		
+		View::getGui ( HOME, null );
+		
+	}
+	
+	public static function montarCurriculo(CurriculoDto $curriculo){
+	
+	
 		try{
-			self::validaCampos();
-			
-			$curriculo = new CurriculoDto();
-			$curriculo->setAluno(alunoBo::montarAluno());
-			
-			
-			die();
-			
+			validaCampos("resumo");
+
+			$curriculo->setResumo($_REQUEST['resumo']);
 			
 		}catch (Exception $e){
 			die($e->getMessage());

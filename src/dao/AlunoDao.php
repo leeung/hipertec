@@ -6,29 +6,32 @@ class AlunoDao {
 	}
 	public function inserir(AlunoDTO $aluno) {
 		$result = null;
-		$sql = 'INSERT INTO aluno(
-					nome, idade, telefone, endereco, nacionalidade, sexo, foto, email, linkedin, facebook) 
-				VALUES(:nome, :idade, :telefone, :endereco, :nacionalidade, :sexo, :foto, :email, :linkedin, :facebook)';
+		$sql = 'insert into aluno
+				(nome, idade, telefone, nacionalidade, sexo, foto, email, linkedin, facebook, cpf)
+				values(?,?,?,?,?,?,?,?,?,?);';
 		echo "tentando inserir um aluno";
 		
 		try {
 			$stm = $this->conn->prepare ( $sql );
-			$stm->bindParam ( ':nome', $aluno->getNome () );
-			$stm->bindParam ( ':idade', $aluno->getIdade () );
-			$stm->bindParam ( ':telefone', $aluno->getTelefone () );
-			$stm->bindParam ( ':endereco', $aluno->getEndereco () );
-			$stm->bindParam ( ':nacionalidade', $aluno->getNacionalidade () );
-			$stm->bindParam ( ':sexo', $aluno->getSexo () );
-			$stm->bindParam ( ':foto', $aluno->getFoto () );
-			$stm->bindParam ( ':email', $aluno->getEmail () );
-			$stm->bindParam ( ':linkedin', $aluno->getLinkedin () );
-			$stm->bindParam ( ':facebook', $aluno->getFacebook () );
+			$stm->bindParam ( 1, $aluno->getNome () );
+			$stm->bindParam ( 2, $aluno->getIdade () );
+			$stm->bindParam ( 3, $aluno->getTelefone () );
+			$stm->bindParam ( 4, $aluno->getNacionalidade () );
+			$stm->bindParam ( 5, $aluno->getSexo () );
+			$stm->bindParam ( 6, $aluno->getFoto () );
+			$stm->bindParam ( 7, $aluno->getEmail () );
+			$stm->bindParam ( 8, $aluno->getLinkedin () );
+			$stm->bindParam ( 9, $aluno->getFacebook () );
+			$stm->bindParam ( 10, $aluno->getCpf() );
 			
 			$result = $stm->execute ();
+			
+			
 		} catch ( PDOException $e ) {
 			echo $e->getMessage ();
 		}
-		return $result;
+		
+		return $id = $this->conn->lastInsertId();
 	}
 	public function listar() {
 		$alunos = array ();
