@@ -18,7 +18,7 @@
 				</div>
 				
 				<div class="col-xs-5 col-xs-offset-2">
-					<form method="post" action="index.php?entidade=aluno&funcao=existe">
+					<form method="post" action="index.php?entidade=vaga&funcao=listar">
 						<div class="row"></div>
 						<div class="row text-center">
 						<button type="submit" class="text-center btn"><img src="gui/img/ico_vagas.png"></button>

@@ -43,3 +43,7 @@ function loadFile($classe){
 	if(file_exists(DAO.$file))	require_once DAO.$file;
 	if(file_exists(UTIL.$file))	require_once UTIL.$file;
 }
+
+function data(){
+	return date("d/m/Y");
+}
