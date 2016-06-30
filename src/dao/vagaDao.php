@@ -17,15 +17,17 @@ class VagaDao {
 			
 			
 			foreach ( $result as $row ) {
+				
 				$dados = $stm->fetch ();
 				$vaga = new VagaDto ();
-				$vaga->setId ( $id );
-				$vaga->setDescricao ( $descricao );
-				$vaga->setEmail ( $email );
-				$vaga->setEmpresa ( $empresa );
-				$vaga->getSituacao ();
-				$vaga->setPostagem ( $postagem );
-				$vaga->setVencimento ( $vencimento );
+				$vaga->setId ( $row['id']);
+				$vaga->setTitulo( $row['titulo'] );
+				$vaga->setDescricao ( $row['descricao'] );
+				$vaga->setEmail ( $row['email'] );
+				$vaga->setEmpresa ( $row['empresa'] );
+				$vaga->getSituacao ($row['situacao']);
+				$vaga->setPostagem ( FormatData::dateToNormal($row['postagem']) );
+				$vaga->setVencimento ( FormatData::dateToNormal($row['vencimento'] ));
 				$vagas [] = $vaga;
 			}
 			

@@ -14,8 +14,9 @@ class VagaBo {
 		
 		$vagas = $this->vagaDao->listar();
 		$dados['vagas'] = $vagas;
-		
-		
+				
+		//echo "<pre>";
+		//var_dump($vagas);
 		View::getGui("vagas",$dados );
 		
 	}

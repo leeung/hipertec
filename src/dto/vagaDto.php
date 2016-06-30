@@ -8,9 +8,9 @@ class VagaDto{
 	private $empresa;
 	private $postagem ;
 	private $vencimento;
-	private $vencimento;
 	private $situacao;
 	private $email;
+	
 	
 	public function getId() {
 		return $this->id;
@@ -54,13 +54,7 @@ class VagaDto{
 		$this->vencimento = $vencimento;
 		return $this;
 	}
-	public function getVencimento() {
-		return $this->vencimento;
-	}
-	public function setVencimento($vencimento) {
-		$this->vencimento = $vencimento;
-		return $this;
-	}
+
 	public function getSituacao() {
 		return $this->situacao;
 	}

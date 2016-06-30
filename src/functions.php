@@ -44,6 +44,4 @@ function loadFile($classe){
 	if(file_exists(UTIL.$file))	require_once UTIL.$file;
 }
 
-function data(){
-	return date("d/m/Y");
-}
+
