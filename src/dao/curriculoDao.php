@@ -9,7 +9,7 @@ class CurriculoDao {
 		
 		try {
 			$stm = $this->conn->prepare ( $QUERY_INSERT_CURRICULO );
-			$stm->bindParam ( 1, $curriculoDto->getAluno () );
+			$stm->bindParam ( 1, $curriculoDto->getAluno()->getId() );
 			$stm->bindParam ( 2, $curriculoDto->getResumo () );
 			$result = $stm->execute ();
 			

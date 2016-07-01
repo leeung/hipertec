@@ -6,7 +6,7 @@ class InformacaoAdicionalDao {
 		$this->con = Connection::getConnection ();
 	}
 	
-	public function getInfoAddByCurriculumId($id) {
+	public function getInfoAddByCurriculumId($id, $dados) {
 		$QUERY_INFORADD_BY_CURRICULUMID = "SELECT * FROM INFORMACAOADICIONAL WHERE CURRICULUM_ID = ?";
 		
 		try {
@@ -16,7 +16,6 @@ class InformacaoAdicionalDao {
 			
 			$result = $stm->fetchAll ( PDO::FETCH_ASSOC );
 			
-			$dados = array ();
 			if ($stm->rowCount () > 0) {
 				foreach ( $result as $row )
 					$infoAdd = new InformacaoAdicionalDto ();

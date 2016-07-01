@@ -4,7 +4,7 @@ class CurriculoDto{
 	
 	private $id;
 	private $aluno;
-	private $resumo;
+	private $resumo = null;
 	private $competencias;
 	private $experiencias;
 	private $infoAdicionais;

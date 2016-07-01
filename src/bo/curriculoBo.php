@@ -37,7 +37,7 @@ class CurriculoBo {
 			$cpf = $_POST ['cpf'];
 			
 			if (! $this->curriculoDao->existeCurriculo ( $cpf )) {
-				die("nao existe");
+			
 				$curriculo = new CurriculoDto ();
 				$curriculo->getAluno()->setCpf ( $cpf );
 				
@@ -55,13 +55,13 @@ class CurriculoBo {
 			$curriculo->setAluno ( $aluno->listAlunoByCpf ( $cpf ) );
 				
 			$competencias = new CompetenciasDao ();
-			$curriculo->setCompetencias ( $competencias->getCompetenciasByCurriculoId ( $curriculo->getId () ) );
+			$curriculo->setCompetencias ( $competencias->getCompetenciasByCurriculoId ( $curriculo->getId (), $curriculo->getCompetencias() ) );
 				
 			$experiencias = new ExperienciasDao ();
-			$curriculo->setExperiencias ( $experiencias->listExperienciasByCurriculumId ( $curriculo->getId () ) );
+			$curriculo->setExperiencias ( $experiencias->listExperienciasByCurriculumId ( $curriculo->getId (), $curriculo->getExperiencias() ) );
 				
 			$infoAdd = new InformacaoAdicionalDao ();
-			$curriculo->setInfoAdicionais ( $infoAdd->getInfoAddByCurriculumId ( $curriculo->getId () ) );
+			$curriculo->setInfoAdicionais ( $infoAdd->getInfoAddByCurriculumId ( $curriculo->getId (), $curriculo->getInfoAdicionais() ) );
 				
 
 			$dados ['curriculo'] = $curriculo;
@@ -114,7 +114,13 @@ class CurriculoBo {
 	
 	public function novo(){
 		
-	
+		$curriculoDao = new CurriculoDao();
+		$result = $curriculoDao->existeCurriculo($_REQUEST['cpf']);
+		
+		if ($result){
+			View::getGui ( HOME, null );
+			return false;
+		}
 		
 		$alunoBo = new alunoBo();
 		$id_aluno = $alunoBo->novo();
@@ -124,10 +130,11 @@ class CurriculoBo {
 		
 		$curriculo = new CurriculoDto();
 		self::montarCurriculo($curriculo);
-		$curriculoDao = new CurriculoDao();
+		$curriculo->getAluno()->setId($id_aluno);
+		
 		$curriculoDao->novoCurriculo($curriculo);
 		
-		if($alunoBo->listAlunoByCpf($al))
+		//if($alunoBo->listAlunoByCpf($cu))
 		
 		View::getGui ( HOME, null );
 		

@@ -4,7 +4,7 @@ class ExperienciasDao {
 	public function __construct() {
 		$this->con = Connection::getConnection ();
 	}
-	public function listExperienciasByCurriculumId($id) {
+	public function listExperienciasByCurriculumId($id, $dados) {
 		$QUERY_EXPERIENCIAS_BY_CURRICULUMID = "SELECT * FROM EXPERIENCIAS WHERE CURRICULUM_ID = ?";
 		
 		try {
@@ -14,7 +14,6 @@ class ExperienciasDao {
 			
 			$result = $stm->fetchAll ( PDO::FETCH_ASSOC );
 			
-			$dados = array ();
 			if ($stm->rowCount () > 0) {
 				foreach ( $result as $row ) {
 					$exper = new ExperienciasDto ();

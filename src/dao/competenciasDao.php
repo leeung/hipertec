@@ -7,7 +7,7 @@ class CompetenciasDao {
 		$this->con = Connection::getConnection();
 	}
 	
-	public function getCompetenciasByCurriculoId($id){
+	public function getCompetenciasByCurriculoId($id, $dados){
 		$QUERY_COMPETENCIAS_BY_IDCURRICULO = 
 		"SELECT * FROM COMPETENCIAS WHERE CURRICULUM_ID = ?";
 		
@@ -19,7 +19,6 @@ class CompetenciasDao {
 			
 			$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 			
-			$dados = array();
 			
 			if($stm->rowCount() > 0){
 				foreach ($result as $row){
