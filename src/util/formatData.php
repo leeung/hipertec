@@ -12,4 +12,11 @@ class FormatData{
 		return $dataStr;
 	
 	}
+	
+	public static function dateToSql($data){
+	
+		$dataStr = date_format(new DateTime($data), "d-m-Y");
+		return $dataStr;
+	
+	}
 }

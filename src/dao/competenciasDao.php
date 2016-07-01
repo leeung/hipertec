@@ -42,7 +42,28 @@ class CompetenciasDao {
 			die($e->getMessage()."competenciasDao");
 		}
 		
+	}
+	
+	public function inserir(CompetenciasDto $competencia){
+		$QUERY_INSERT_NOVO_COMPETENCIA ="insert into competencias(curso, instituicao, cargahoraria, nivel, status, curriculum_id, conclusao)
+values(?,?,?,?,?,?,?);";
 		
+		echo "inserindo Competencia";
 		
+		try {
+			$stm = $this->conn->prepare ( $QUERY_INSERT_NOVO_COMPETENCIA );
+			$stm->bindParam ( 1, $competencia->getCurso() );
+			$stm->bindParam ( 2, $competencia->getInstituicao() );
+			$stm->bindParam ( 3, $competencia->getCargaHoraria());
+			$stm->bindParam ( 4, $competencia->getNivel() );
+			$stm->bindParam ( 5, $competencia->getStatus());
+			$stm->bindParam ( 6, $competencia->getCurriculumId());
+			$stm->bindParam ( 7, FormatData::dateToSql($competencia->getConclusao() ));
+		
+			$result = $stm->execute ();
+		
+		} catch ( PDOException $e ) {
+			echo $e->getMessage ();
+		}
 	}
 }

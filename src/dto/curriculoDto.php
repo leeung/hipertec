@@ -7,13 +7,13 @@ class CurriculoDto{
 	private $resumo = null;
 	private $competencias;
 	private $experiencias;
-	private $infoAdicionais;
+	private $infoAdicional = null;
 	
 	public function __construct(){
 		$this->aluno = new alunoDto();
 		$this->competencias = array(new CompetenciasDto());
 		$this->experiencias = array(new ExperienciasDto());
-		$this->infoAdicionais = array(new InformacaoAdicionalDto());
+
 	}
 	
 	public function getId() {
@@ -51,18 +51,13 @@ class CurriculoDto{
 		$this->experiencias = $experiencias;
 		return $this;
 	}
-	public function getInfoAdicionais() {
-		return $this->infoAdicionais;
+	public function getInfoAdicional() {
+		return $this->infoAdicional;
 	}
-	public function setInfoAdicionais($infoAdicionais) {
-		$this->infoAdicionais = $infoAdicionais;
+	public function setInfoAdicional($infoAdicional) {
+		$this->infoAdicional = $infoAdicional;
 		return $this;
 	}
-	
-	
-	
-	
-	
 	
 	
 	

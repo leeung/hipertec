@@ -7,8 +7,8 @@ class AlunoDao {
 	public function inserir(AlunoDTO $aluno) {
 		$result = null;
 		$sql = 'insert into aluno
-				(nome, idade, telefone, nacionalidade, sexo, foto, email, linkedin, facebook, cpf)
-				values(?,?,?,?,?,?,?,?,?,?);';
+				(nome, idade, telefone, nacionalidade,estadoCivil, sexo, foto, email, linkedin, facebook, cpf)
+				values(?,?,?,?,?,?,?,?,?,?,?);';
 		echo "tentando inserir um aluno";
 		
 		try {
@@ -17,18 +17,19 @@ class AlunoDao {
 			$stm->bindParam ( 2, $aluno->getIdade () );
 			$stm->bindParam ( 3, $aluno->getTelefone () );
 			$stm->bindParam ( 4, $aluno->getNacionalidade () );
-			$stm->bindParam ( 5, $aluno->getSexo () );
-			$stm->bindParam ( 6, $aluno->getFoto () );
-			$stm->bindParam ( 7, $aluno->getEmail () );
-			$stm->bindParam ( 8, $aluno->getLinkedin () );
-			$stm->bindParam ( 9, $aluno->getFacebook () );
-			$stm->bindParam ( 10, $aluno->getCpf() );
+			$stm->bindParam ( 5, $aluno->getEstadoCivil() );			
+			$stm->bindParam ( 6, $aluno->getSexo () );
+			$stm->bindParam ( 7, $aluno->getFoto () );
+			$stm->bindParam ( 8, $aluno->getEmail () );
+			$stm->bindParam ( 9, $aluno->getLinkedin () );
+			$stm->bindParam ( 10, $aluno->getFacebook () );
+			$stm->bindParam ( 11, $aluno->getCpf() );
 			
 			$result = $stm->execute ();
 			
 			
 		} catch ( PDOException $e ) {
-			echo $e->getMessage ();
+			die( $e->getMessage ()."alunoDao");
 		}
 		
 		return $id = $this->conn->lastInsertId();
@@ -60,7 +61,7 @@ class AlunoDao {
 				$aluno->setEmail ( $row ['email'] );
 				$aluno->setNacionalidade ( $row ['nacionalidade'] );
 				$aluno->setSexo ( $row ['sexo'] );
-				// $aluno->setEstadoCivil($row['estadoCivil']);
+				$aluno->setEstadoCivil($row['estadoCivil']);
 				$aluno->setFoto ( $row ['foto'] );
 				$aluno->setLinkedin ( $row ['linkedin'] );
 				$aluno->setNacionalidade ( $row ['facebook'] );
@@ -70,7 +71,7 @@ class AlunoDao {
 			
 			return $alunos;
 		} catch ( Exception $e ) {
-			echo $e->getMessage ();
+			die( $e->getMessage ()."alunoDao");
 		}
 	}
 	
@@ -102,12 +103,30 @@ class AlunoDao {
 			if (!$stm->rowCount() > 0) return false;
 		
 		} catch ( PDOException $e ) {
-			die($e->getMessage());
+			die( $e->getMessage ()."alunoDao");
 		}
 	}
 	
 	
-	public function deletar($id) {
+	public function delete($cpf) {
+		$QUERY_ALUNO_DELETE = "delete from aluno where cpf=?";
+	
+		try {
+				
+			$stm = $this->conn->prepare ( $QUERY_ALUNO_DELETE );
+			$stm->bindParam ( 1, $cpf );
+			$stm->execute ();
+			
+			if($stm->rowCount() > 0)
+				return true;
+			
+			return false;
+				
+		} catch ( PDOException $e ) {
+			die( $e->getMessage ()."alunoDao");
+		}
+		
+		
 	}
 	
 	public function listAlunoByCpf($cpf) {
@@ -142,7 +161,25 @@ class AlunoDao {
 			return $alunoDto;
 			
 		} catch ( PDOException $e ) {
-			die ( $e->getMessage () );
+			die( $e->getMessage ()."alunoDao");
+		}
+	}
+	
+	public function existeAluno($cpf) {
+		$QUERY_EXISTE_ALUNO = "select id from aluno where cpf=?";
+		
+		try {
+			$stm = $this->conn->prepare ( $QUERY_EXISTE_ALUNO );
+			$stm->bindParam ( 1, $cpf, PDO::PARAM_STR );
+			$stm->execute ();
+			
+			if ($stm->rowCount() > 0)
+				return true;
+			
+			return false;
+			
+		} catch ( Exception $e ) {
+			die( $e->getMessage ()."alunoDao");
 		}
 	}
 }

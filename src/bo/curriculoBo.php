@@ -37,7 +37,13 @@ class CurriculoBo {
 			$cpf = $_POST ['cpf'];
 			
 			if (! $this->curriculoDao->existeCurriculo ( $cpf )) {
-			
+				
+				$alunoBo = new alunoBo();
+				if($alunoBo->existeAluno($cpf)){
+					$alunoDao = new AlunoDao();
+					$alunoDao->delete($cpf);
+				}
+					
 				$curriculo = new CurriculoDto ();
 				$curriculo->getAluno()->setCpf ( $cpf );
 				
@@ -60,12 +66,10 @@ class CurriculoBo {
 			$experiencias = new ExperienciasDao ();
 			$curriculo->setExperiencias ( $experiencias->listExperienciasByCurriculumId ( $curriculo->getId (), $curriculo->getExperiencias() ) );
 				
-			$infoAdd = new InformacaoAdicionalDao ();
-			$curriculo->setInfoAdicionais ( $infoAdd->getInfoAddByCurriculumId ( $curriculo->getId (), $curriculo->getInfoAdicionais() ) );
-				
-
 			$dados ['curriculo'] = $curriculo;
 			$dados ['operacao'] = "ALTERAR";
+
+			
 			View::getGui ( 'curriculo', $dados );
 			
 		} catch ( Exception $e ) {
@@ -78,14 +82,12 @@ class CurriculoBo {
 		
 		try{
 			
-			validaCampos('resumo');
-			
+	
 			$curriculo = new CurriculoDto();
-			$curriculo->setResumo($_REQUEST['resumo']);
+			self::montarCurriculo($curriculo);
 			alunoBo::montarAluno($curriculo->getAluno());
 			$curriculo->setCompetencias(CompetenciasBo::montaCompetencias());
 			$curriculo->setExperiencias(ExperienciasBo::montaExperiencias());
-			$curriculo->setInfoAdicionais(InformacaoAdicionalBo::montaInformacaoAdd());
 			
 			$curriculoDao = new CurriculoDao();
 			$curriculoDao->alterar($curriculo);
@@ -93,9 +95,9 @@ class CurriculoBo {
 			$alunoDao = new AlunoDao();
 			$alunoDao->alterar($curriculo->getAluno());
 			
-			$infAdd = new InformacaoAdicionalDao();
-			$infAdd->alterar($curriculo->getInfoAdicionais(), $curriculo->getAluno()->getCpf());
-			
+			$competencias = new CompetenciasBo();
+			$competencias->novo();
+		
 			$experiencias = new ExperienciasDao();
 			$experiencias->alterar($curriculo->getExperiencias(), $curriculo->getAluno()->getCpf());
 			
@@ -114,28 +116,25 @@ class CurriculoBo {
 	
 	public function novo(){
 		
-		$curriculoDao = new CurriculoDao();
-		$result = $curriculoDao->existeCurriculo($_REQUEST['cpf']);
-		
-		if ($result){
-			View::getGui ( HOME, null );
-			return false;
-		}
 		
 		$alunoBo = new alunoBo();
 		$id_aluno = $alunoBo->novo();
 		
 		$endereco = new EnderecoBo();
-		$endereco->novo($id_aluno);
+		$endereco->novo($id_aluno); 
 		
 		$curriculo = new CurriculoDto();
-		self::montarCurriculo($curriculo);
-		$curriculo->getAluno()->setId($id_aluno);
+		$curriculoDao = new CurriculoDao();
+		self::montarCurriculo($curriculo);	
 		
+		$curriculo->getAluno()->setId($id_aluno);
 		$curriculoDao->novoCurriculo($curriculo);
 		
-		//if($alunoBo->listAlunoByCpf($cu))
-		
+		if(!$curriculoDao->existeCurriculo($curriculo->getAluno()->getCpf())){
+			$alunoDao = new AlunoDao();
+			$alunoDao->delete($curriculo->getAluno()->getCpf());
+		}
+			
 		View::getGui ( HOME, null );
 		
 	}
@@ -147,11 +146,12 @@ class CurriculoBo {
 			validaCampos("resumo");
 
 			$curriculo->setResumo($_REQUEST['resumo']);
+			$curriculo->setInfoAdicional($_REQUEST['infoAdd']);
 			
 		}catch (Exception $e){
 			die($e->getMessage());
 		}
 	}
-	
+		
 }
 

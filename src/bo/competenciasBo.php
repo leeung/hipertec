@@ -1,7 +1,7 @@
 <?php
 class CompetenciasBo {
-	public static function montaCompetencias() {
-		$competencia = array();
+	
+	public static function montaCompetencias($competencias = array()) {
 		$existeCurso = true;
 		$nCurso = 0;
 
@@ -15,16 +15,18 @@ class CompetenciasBo {
 					
 					validaCampos ( "curso" . $nCurso );
 					validaCampos ( "instituicao" . $nCurso );
-					// validaCampos("cargahoraria".$nCurso);
-					// validaCampos("nivel".$nCurso);
+					validaCampos("cargaHoraria".$nCurso);
+					validaCampos("nivel".$nCurso);
 					validaCampos ( "status" . $nCurso );
-					validaCampos ( "anoConclusao" . $nCurso );
+					validaCampos ( "conclusao" . $nCurso );
 					
 					$competencia = new CompetenciasDto();
 					$competencia->setCurso($_REQUEST["curso" . $nCurso]);
 					$competencia->setInstituicao($_REQUEST["instituicao" . $nCurso]);
+					$competencia->setInstituicao($_REQUEST["cargaHoraria" . $nCurso]);
+					$competencia->setStatus($_REQUEST["nivel" . $nCurso]);
 					$competencia->setStatus($_REQUEST["status" . $nCurso]);
-					$competencia->setConclusao($_REQUEST["anoConclusao" . $nCurso]);
+					$competencia->setConclusao($_REQUEST["conclusao" . $nCurso]);
 					
 					$competencias[] = $competencia;
 					
@@ -36,6 +38,18 @@ class CompetenciasBo {
 		}
 		
 		return $competencias;
+	}
+	
+	public function novo(){
+		$competenciaDao = new CompetenciasDao();
+		$competencias = array();
+		
+		self::montaCompetencias($competencias);
+		
+		foreach ($competencias as $competencia){
+			print_r($competencia);
+		}
+		
 	}
 
 }

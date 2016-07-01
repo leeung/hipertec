@@ -50,6 +50,19 @@ class alunoBo {
 		return $aluno;
 	}
 	
+	public function delete($cpf){
+		
+		$alunoDao = new AlunoDao();
+		return $alunoDao->delete($cpf);
+		
+	}
+	
+	public function existeAluno($cpf){
+		$alunoDao = new AlunoDao();
+		return $alunoDao->existeAluno($cpf);
+		
+	}
+	
 	
 	
 	public static function montarAluno(alunoDto $aluno){
@@ -77,6 +90,7 @@ class alunoBo {
 			$aluno->setTelefone($_REQUEST['telefone']);
 			$aluno->setEmail($_REQUEST['email']);
 			$aluno->setNacionalidade($_REQUEST['nacionalidade']);
+			$aluno->setEstadoCivil($_REQUEST['estadoCivil']);
 			$aluno->setSexo($_REQUEST['sexo']);
 			$aluno->setFoto($_REQUEST['foto']);
 			$aluno->setEmail($_REQUEST['email']);
@@ -90,25 +104,6 @@ class alunoBo {
 		}
 	}
 	
-	public static function validaCamposAluno(){
-		$retorno = false;
-		
-		if(!isset($_REQUEST['cpf'])) throw  new Exception("Falta campo CPF");
-		if(!isset($_REQUEST['nome'])) throw  new Exception("Falta campo NOME");
-		if(!isset($_REQUEST['idade'])) throw  new Exception("Falta campo IDADE");
-		$retorno = EnderecoBo::validaCamposEndereco();
-		if(!isset($_REQUEST['telefone'])) throw  new Exception("Falta campo TELEFONE");
-		if(!isset($_REQUEST['email'])) throw  new Exception("Falta campo EMAIL");
-		if(!isset($_REQUEST['nacionalidade'])) throw  new Exception("Falta campo NACIONALIDADE");
-		if(!isset($_REQUEST['sexo'])) throw  new Exception("Falta campo SEXO");
-		if(!isset($_REQUEST['estadoCivil'])) throw  new Exception("Falta campo ESTADO CIVIL");
-		//if(!isset($_REQUEST['foto'])) throw  new Exception("Falta campo FOTO");
-		//if(!isset($_REQUEST['linkedin'])) throw  new Exception("Falta campo LINKEDIN");
-		//if(!isset($_REQUEST['facebook'])) throw  new Exception("Falta campo FACEBOOK");
-		
-		return $retorno;
-		
-	}
 	
 	
 }

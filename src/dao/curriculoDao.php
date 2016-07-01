@@ -5,17 +5,18 @@ class CurriculoDao {
 		$this->conn = Connection::getConnection ();
 	}
 	public function novoCurriculo(CurriculoDto $curriculoDto) {
-		$QUERY_INSERT_CURRICULO = "INSERT INTO curriculum( aluno_id, resumo ) VALUES (?, ?)";
+		$QUERY_INSERT_CURRICULO = "INSERT INTO curriculum( aluno_id, resumo, infoAdd ) VALUES (?,?,?)";
 		
 		try {
 			$stm = $this->conn->prepare ( $QUERY_INSERT_CURRICULO );
 			$stm->bindParam ( 1, $curriculoDto->getAluno()->getId() );
 			$stm->bindParam ( 2, $curriculoDto->getResumo () );
+			$stm->bindParam ( 3, $curriculoDto->getInfoAdicional() );
 			$result = $stm->execute ();
 			
 			return $result;
 		} catch ( PDOException $e ) {
-			echo $e->getMessage ();
+			die( $e->getMessage ()."curriculoDao");
 		}
 	}
 	
@@ -26,17 +27,15 @@ class CurriculoDao {
 		try {
 			$stm = $this->conn->prepare ( $QUERY_EXISTE_CURRICULO );
 			$stm->bindParam ( 1, $cpf, PDO::PARAM_STR );
+			$stm->execute ();
 			
-			if (! $stm->execute ())
-				throw new Exception ( "Um erro fatal foi gerado" );
-			
-			if ($stm->rowCount () > 0)
+			if ($stm->rowCount() > 0)
 				return true;
 			
 			return false;
 			
 		} catch ( Exception $e ) {
-			echo $e->getMessage ();
+			die( $e->getMessage ()."curriculoDao");
 		}
 	}
 	
@@ -54,29 +53,31 @@ class CurriculoDao {
 			
 			$curriculo->setId ( $result ['id'] );
 			$curriculo->setResumo ( $result ['resumo'] );
+			$curriculo->setInfoAdicional( $result ['infoAdd'] );
 			
 			return $curriculo;
 			
 		} catch ( PDOException $e ) {
-			die ( $e->getMessage () );
+			die( $e->getMessage ()."curriculoDao");
 		}
 	}
 	
 	
 	public function alterar(CurriculoDto $curriculo) {
-		$QUERY_ALTERAR_CURRICULO = "update curriculum set resumo=? where aluno_id=(select id from aluno where cpf=?)";
+		$QUERY_ALTERAR_CURRICULO = "update curriculum set resumo=?, infoAdd=? where aluno_id=(select id from aluno where cpf=?)";
 		
 		try {
 			$stm = $this->conn->prepare ( $QUERY_ALTERAR_CURRICULO );
 			$stm->bindParam ( 1, $curriculo->getResumo());
-			$stm->bindParam ( 2, $curriculo->getAluno ()->getCpf ());
+			$stm->bindParam ( 2, $curriculo->getInfoAdicional());
+			$stm->bindParam ( 3, $curriculo->getAluno ()->getCpf ());
 			
 			$result = $stm->execute ();
 			
 			if (!$stm->rowCount() > 0) return false;
 		
 		} catch ( PDOException $e ) {
-			die($e->getMessage());
+			die( $e->getMessage ()."curriculoDao");
 		}
 	}
 }
